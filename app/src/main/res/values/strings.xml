@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Storm</string>
+    <string name="span_two">2 Columns</string>
+    <string name="span_three">3 Columns</string>
+    <string name="span_four">4 Columns</string>
+    <string name="title_activity_full_screen_image">FullScreenImage</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="search">Search</string>
+    <string name="image_transition">Image Transition</string>
+</resources>
