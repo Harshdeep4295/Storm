@@ -20,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -29,14 +28,12 @@ import com.storm.Model.DataConstant;
 import com.storm.Model.Image;
 import com.storm.Model.Result;
 import com.storm.R;
-import com.storm.Utilities.StoringUrl;
+import com.storm.Utilities.StoringData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -51,14 +48,14 @@ public class ImageListDisplayFragment extends Fragment {
     ImageListAdapter adapter;
     GridLayoutManager manager;
     ArrayList<String> imageUrlList;
-    StoringUrl storingUrl;
+    StoringData storingData;
     String query = "";
     HashMap<String, ArrayList<String>> saveImageCache;
 
     public ImageListDisplayFragment(Context extActivityContext) {
         this.activityContext = extActivityContext;
         saveImageCache = new HashMap<>();
-        storingUrl = new StoringUrl(activityContext.getApplicationContext());
+        storingData = new StoringData(activityContext.getApplicationContext());
     }
 
     @Nullable
@@ -71,8 +68,6 @@ public class ImageListDisplayFragment extends Fragment {
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle("STORM");
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
-        postponeEnterTransition();
 
         return view;
 
@@ -95,7 +90,7 @@ public class ImageListDisplayFragment extends Fragment {
 
         if (!query.isEmpty()) {
 
-            imageUrlList = storingUrl.getImageUrl(query);
+            imageUrlList = storingData.getImageUrl(query);
         }
         adapter = new ImageListAdapter(imageUrlList, activityContext);
         imageDisplayList.setAdapter(adapter);
@@ -129,7 +124,7 @@ public class ImageListDisplayFragment extends Fragment {
 
                 query = s.trim();
                 ArrayList<String> getListFromShared;
-                getListFromShared = storingUrl.getImageUrl(query);
+                getListFromShared = storingData.getImageUrl(query);
 
                 if (getListFromShared.size() > 0) {
                     adapter.imageUrls = getListFromShared;
@@ -169,6 +164,20 @@ public class ImageListDisplayFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 return true;
 
+            case R.id.fade:
+
+                storingData.setAnimation(android.R.transition.fade);
+                return true;
+
+            case R.id.move:
+
+                storingData.setAnimation(android.R.transition.move);
+                return true;
+
+            case R.id.explode:
+
+                storingData.setAnimation(android.R.transition.explode);
+                return true;
             default:
 
                 manager.setSpanCount(2);
@@ -184,7 +193,7 @@ public class ImageListDisplayFragment extends Fragment {
         super.onResume();
         if (!query.isEmpty()) {
 
-            imageUrlList = storingUrl.getImageUrl(query);
+            imageUrlList = storingData.getImageUrl(query);
             adapter.imageUrls = imageUrlList;
             adapter.notifyDataSetChanged();
         }
@@ -272,7 +281,7 @@ public class ImageListDisplayFragment extends Fragment {
                     imageUrlList.add(loResult.urls.getRegular().toString().trim() + ".jpeg");
                 }
 
-                storingUrl.setImageUrl(query.trim(), imageUrlList);
+                storingData.setImageUrl(query.trim(), imageUrlList);
 
                 adapter.imageUrls = imageUrlList;
                 adapter.notifyDataSetChanged();

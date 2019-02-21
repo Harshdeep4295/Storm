@@ -57,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
         if(!fragmentPopped) {
             fragmentTransaction.addToBackStack(backStateName);
 
-            if(animation)
-                fragmentTransaction.addSharedElement(itemView,ViewCompat.getTransitionName(itemView));
+            if(animation) {
 
+                fragmentTransaction.addSharedElement(itemView, getString(R.string.image_transition));
+            }
 
         }
         fragmentTransaction.commit();

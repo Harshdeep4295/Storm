@@ -44,6 +44,7 @@ public class ImageListAdapter extends RecyclerView.Adapter {
         holder.setImageDisplayView(imageUrls.get(i), activityContext);
 
         final int position = i;
+
         ViewCompat.setTransitionName(holder.itemView, activityContext.getString(R.string.image_transition));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

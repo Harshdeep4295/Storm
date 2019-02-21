@@ -2,12 +2,15 @@ package com.storm.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import com.squareup.picasso.Picasso;
 import com.storm.Adapters.FullScreenPagerAdapter;
 import com.storm.R;
 import com.storm.Utilities.PicassoCaching;
+import com.storm.Utilities.StoringData;
 
 import java.util.ArrayList;
 
@@ -29,11 +33,13 @@ public class FullScreenDisplay extends Fragment {
     private int position;
     private static ArrayList<String> ImageUrls = new ArrayList<>();
     private Context activityContext;
+    private static StoringData storingData;
 
     public FullScreenDisplay(Context extActivityContext, int Position, ArrayList<String> ImageUrls) {
         this.activityContext = extActivityContext;
         this.position = Position;
         FullScreenDisplay.ImageUrls = ImageUrls;
+        storingData=new StoringData(extActivityContext);
 
     }
 
@@ -49,8 +55,10 @@ public class FullScreenDisplay extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Transition is done here. Using Android Default Animation FADE
         postponeEnterTransition();
-        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(storingData.getAnimation()));
         setSharedElementReturnTransition(null);
     }
 
@@ -80,6 +88,12 @@ public class FullScreenDisplay extends Fragment {
             args.putInt(ARG_IMAGE_INDEX, imageIndex);
             fragment.setArguments(args);
             return fragment;
+
+        }
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
 
         }
 

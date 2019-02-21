@@ -28,5 +28,22 @@
         android:icon="@android:drawable/arrow_up_float"
         android:title="@string/span_four"/>
 
+    <item
+        android:id="@+id/fade"
+        app:showAsAction="never"
+        android:icon="@android:drawable/arrow_up_float"
+        android:title="@string/fade"/>
+
+    <item
+        android:id="@+id/explode"
+        app:showAsAction="never"
+        android:icon="@android:drawable/arrow_up_float"
+        android:title="@string/explode"/>
+
+    <item
+        android:id="@+id/move"
+        app:showAsAction="never"
+        android:icon="@android:drawable/arrow_up_float"
+        android:title="@string/move"/>
 
 </menu>

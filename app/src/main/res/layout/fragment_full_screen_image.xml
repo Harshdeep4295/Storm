@@ -20,7 +20,6 @@
             android:layout_marginTop="2dp"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:transitionName="@string/image_transition"
             app:layout_constraintLeft_toLeftOf="parent" />
     </RelativeLayout>
 
