@@ -27,7 +27,7 @@ public class FullScreenDisplay extends Fragment {
     private FullScreenPagerAdapter adapter;
     private ViewPager mViewPager;
     private int position;
-    private static ArrayList<String> ImageUrls=new ArrayList<>();
+    private static ArrayList<String> ImageUrls = new ArrayList<>();
     private Context activityContext;
 
     public FullScreenDisplay(Context extActivityContext, int Position, ArrayList<String> ImageUrls) {
@@ -68,31 +68,34 @@ public class FullScreenDisplay extends Fragment {
 
     public static class PlaceholderFragment extends Fragment {
 
-        private static final String ARG_SECTION_NUMBER = "section_number";
+        private static final String ARG_IMAGE_INDEX = "image__index";
 
         public PlaceholderFragment() {
         }
 
 
-        public static FullScreenDisplay.PlaceholderFragment newInstance(int sectionNumber) {
+        public static FullScreenDisplay.PlaceholderFragment newInstance(int imageIndex) {
+
             FullScreenDisplay.PlaceholderFragment fragment = new FullScreenDisplay.PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putInt(ARG_IMAGE_INDEX, imageIndex);
             fragment.setArguments(args);
             return fragment;
+
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
             View rootView = inflater.inflate(R.layout.fragment_full_screen_image, container, false);
 
             Bundle bundle = getArguments();
-            int test = bundle.getInt(ARG_SECTION_NUMBER);
+            int index = bundle.getInt(ARG_IMAGE_INDEX);
 
             ImageView imageView = (ImageView) rootView.findViewById(R.id.section_label);
             Picasso picasso = PicassoCaching.getPicassoInstance(getContext().getApplicationContext());
-            picasso.get().load(ImageUrls.get(test)).placeholder(R.drawable.placeholder).into(imageView,new Callback() {
+            picasso.get().load(ImageUrls.get(index)).placeholder(R.drawable.placeholder).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
                     getParentFragment().startPostponedEnterTransition();
