@@ -59,7 +59,6 @@ public class FullScreenDisplay extends Fragment {
 
         adapter = new FullScreenPagerAdapter(getChildFragmentManager(), ImageUrls);
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) view.findViewById(R.id.container);
         mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(position);
