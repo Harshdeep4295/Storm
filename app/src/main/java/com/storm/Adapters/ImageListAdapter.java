@@ -1,6 +1,7 @@
 package com.storm.Adapters;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
@@ -32,34 +33,36 @@ public class ImageListAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view = LayoutInflater.from(activityContext).inflate(R.layout.single_item_view, viewGroup, false);
-
         return new ImageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, @SuppressLint("RecyclerView") final int i) {
 
         final ImageViewHolder holder = (ImageViewHolder) viewHolder;
 
         holder.setImageDisplayView(imageUrls.get(i), activityContext);
 
-        final int position = i;
+        String transitionName = activityContext.getApplicationContext().getString(R.string.image_transition)+i;
 
-        ViewCompat.setTransitionName(holder.itemView, activityContext.getString(R.string.image_transition));
+        holder.imageDisplayView.setTransitionName(transitionName);
+        ViewCompat.setTransitionName(holder.imageDisplayView, transitionName);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.imageDisplayView.setHasTransientState(true);
+        holder.imageDisplayView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                FullScreenDisplay fullScreenDisplay = new FullScreenDisplay(activityContext, position, imageUrls);
+                FullScreenDisplay fullScreenDisplay = new FullScreenDisplay(activityContext, i, imageUrls);
 
                 if (activityContext instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) activityContext;
-                    mainActivity.switchFragment(fullScreenDisplay,true,holder.itemView);
+                    mainActivity.switchFragment(fullScreenDisplay, true, holder.imageDisplayView);
                 }
 
             }
         });
+
     }
 
     @Override

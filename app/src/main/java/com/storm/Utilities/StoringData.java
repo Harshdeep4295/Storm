@@ -14,6 +14,7 @@ public class StoringData {
 
     private SharedPreferences sharedPreferences;
     private static String KEY_ANIMATION = "animation_key";
+    private static String KEY_COLUMN="span_key";
 
     public StoringData(Context ctx) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -54,6 +55,16 @@ public class StoringData {
     }
 
     public int getAnimation() {
-        return sharedPreferences.getInt(KEY_ANIMATION, android.R.transition.fade);
+        return sharedPreferences.getInt(KEY_ANIMATION, android.R.transition.move);
+    }
+
+    public void setspan(int id) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(KEY_COLUMN, id);
+        editor.commit();
+    }
+
+    public int getspan() {
+        return sharedPreferences.getInt(KEY_COLUMN, 2);
     }
 }

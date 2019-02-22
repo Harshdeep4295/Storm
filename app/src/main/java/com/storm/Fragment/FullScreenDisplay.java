@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,7 +40,7 @@ public class FullScreenDisplay extends Fragment {
         this.activityContext = extActivityContext;
         this.position = Position;
         FullScreenDisplay.ImageUrls = ImageUrls;
-        storingData=new StoringData(extActivityContext);
+        storingData = new StoringData(extActivityContext);
 
     }
 
@@ -55,18 +56,18 @@ public class FullScreenDisplay extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Transition is done here. Using Android Default Animation FADE
+
         postponeEnterTransition();
-        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(storingData.getAnimation()));
-        setSharedElementReturnTransition(null);
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(storingData.getAnimation()).setDuration(800));
+        setSharedElementReturnTransition(TransitionInflater.from(getContext()).inflateTransition(storingData.getAnimation()).setDuration(800));
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         adapter = new FullScreenPagerAdapter(getChildFragmentManager(), ImageUrls);
-
         mViewPager = (ViewPager) view.findViewById(R.id.container);
         mViewPager.setAdapter(adapter);
         mViewPager.setCurrentItem(position);
@@ -94,7 +95,7 @@ public class FullScreenDisplay extends Fragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
+            postponeEnterTransition();
         }
 
         @Override
@@ -106,17 +107,19 @@ public class FullScreenDisplay extends Fragment {
             Bundle bundle = getArguments();
             int index = bundle.getInt(ARG_IMAGE_INDEX);
 
-            ImageView imageView = (ImageView) rootView.findViewById(R.id.section_label);
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.display_image_view);
+            imageView.setTransitionName(getActivity().getApplicationContext().getString(R.string.image_transition)+index);
+
             Picasso picasso = PicassoCaching.getPicassoInstance(getContext().getApplicationContext());
             picasso.get().load(ImageUrls.get(index)).placeholder(R.drawable.placeholder).into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
-                    getParentFragment().startPostponedEnterTransition();
+                    startPostponedEnterTransition();
                 }
 
                 @Override
                 public void onError(Exception e) {
-                    getParentFragment().startPostponedEnterTransition();
+                    startPostponedEnterTransition();
                 }
 
             });

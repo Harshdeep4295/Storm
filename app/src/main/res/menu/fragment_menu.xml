@@ -27,7 +27,7 @@
         app:showAsAction="never"
         android:icon="@android:drawable/arrow_up_float"
         android:title="@string/span_four"/>
-
+<!--
     <item
         android:id="@+id/fade"
         app:showAsAction="never"
@@ -44,6 +44,6 @@
         android:id="@+id/move"
         app:showAsAction="never"
         android:icon="@android:drawable/arrow_up_float"
-        android:title="@string/move"/>
+        android:title="@string/move"/>-->
 
 </menu>

@@ -1,9 +1,9 @@
 package com.storm.Activities;
 
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,8 +11,6 @@ import android.widget.FrameLayout;
 
 import com.storm.Fragment.ImageListDisplayFragment;
 import com.storm.R;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
             if(animation) {
 
-                fragmentTransaction.addSharedElement(itemView, getString(R.string.image_transition));
+                fragmentTransaction.addSharedElement(itemView, itemView.getTransitionName());
             }
 
         }
@@ -70,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(){
         if(getSupportFragmentManager().getBackStackEntryCount()>1){
             super.onBackPressed();
+
         }else{
             finish();
         }

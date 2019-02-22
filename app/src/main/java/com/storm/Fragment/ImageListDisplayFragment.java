@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -49,7 +50,7 @@ public class ImageListDisplayFragment extends Fragment {
     GridLayoutManager manager;
     ArrayList<String> imageUrlList;
     StoringData storingData;
-    String query = "";
+    String query = "dogs";
     HashMap<String, ArrayList<String>> saveImageCache;
 
     public ImageListDisplayFragment(Context extActivityContext) {
@@ -76,11 +77,11 @@ public class ImageListDisplayFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        postponeEnterTransition();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         imageDisplayList = view.findViewById(R.id.image_recycler_view);
         imageUrlList = new ArrayList<>();
 
@@ -95,8 +96,9 @@ public class ImageListDisplayFragment extends Fragment {
         adapter = new ImageListAdapter(imageUrlList, activityContext);
         imageDisplayList.setAdapter(adapter);
 
-        manager = new GridLayoutManager(activityContext, 2, GridLayoutManager.VERTICAL, false);
+        manager = new GridLayoutManager(activityContext, storingData.getspan(), GridLayoutManager.VERTICAL, false);
         imageDisplayList.setLayoutManager(manager);
+
 
     }
 
@@ -153,6 +155,7 @@ public class ImageListDisplayFragment extends Fragment {
             case R.id.three:
 
                 manager.setSpanCount(3);
+                storingData.setspan(3);
                 imageDisplayList.setLayoutManager(manager);
                 adapter.notifyDataSetChanged();
                 return true;
@@ -160,11 +163,12 @@ public class ImageListDisplayFragment extends Fragment {
             case R.id.four:
 
                 manager.setSpanCount(4);
+                storingData.setspan(4);
                 imageDisplayList.setLayoutManager(manager);
                 adapter.notifyDataSetChanged();
                 return true;
 
-            case R.id.fade:
+           /* case R.id.fade:
 
                 storingData.setAnimation(android.R.transition.fade);
                 return true;
@@ -177,10 +181,11 @@ public class ImageListDisplayFragment extends Fragment {
             case R.id.explode:
 
                 storingData.setAnimation(android.R.transition.explode);
-                return true;
+                return true;*/
             default:
 
                 manager.setSpanCount(2);
+                storingData.setspan(2);
                 imageDisplayList.setLayoutManager(manager);
                 adapter.notifyDataSetChanged();
                 return true;
@@ -290,8 +295,6 @@ public class ImageListDisplayFragment extends Fragment {
 
                 Toast.makeText(activityContext, result, Toast.LENGTH_LONG).show();
             }
-
-            setRetainInstance(true);
 
         }
 
